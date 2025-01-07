@@ -362,3 +362,39 @@ This project is released under the [Apache 2.0 license](LICENSE).
 - [MMRazor](https://github.com/open-mmlab/mmrazor): OpenMMLab model compression toolbox and benchmark.
 - [MIM](https://github.com/open-mmlab/mim): MIM installs OpenMMLab packages.
 - [Playground](https://github.com/open-mmlab/playground): A central hub for gathering and showcasing amazing projects built upon OpenMMLab.
+
+## Changes
+```diff
+Index: mmdeploy/pytorch/symbolics/grid_sampler.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/mmdeploy/pytorch/symbolics/grid_sampler.py b/mmdeploy/pytorch/symbolics/grid_sampler.py
+--- a/mmdeploy/pytorch/symbolics/grid_sampler.py	(revision 3f8604bd72e8e15d06b2e0552fe2fdb8f8de33c4)
++++ b/mmdeploy/pytorch/symbolics/grid_sampler.py	(revision 3a7b44c58fdb69594ed421bbbf29bfdefde1da7a)
+@@ -18,12 +18,21 @@
+     support here. `grid_sampler` will be exported as ONNX node
+     'mmdeploy::grid_sampler'
+     """
++    interpolation_modes = {
++        0: "bilinear",
++        1: "nearest"
++    }
++    padding_modes = {
++        0: "zeros",
++        1: "border",
++        2: "reflection"
++    }
+     return g.op(
+-        'mmdeploy::grid_sampler',
++        'com.microsoft::GridSample',
+         input,
+         grid,
+-        interpolation_mode_i=interpolation_mode,
+-        padding_mode_i=padding_mode,
++        mode_s=interpolation_modes[interpolation_mode],
++        padding_mode_s=padding_modes[padding_mode],
+         align_corners_i=align_corners)
+```
+ 
