@@ -18,12 +18,21 @@ def grid_sampler(g,
     support here. `grid_sampler` will be exported as ONNX node
     'mmdeploy::grid_sampler'
     """
+    interpolation_modes = {
+        0: "bilinear",
+        1: "nearest"
+    }
+    padding_modes = {
+        0: "zeros",
+        1: "border",
+        2: "reflection"
+    }
     return g.op(
-        'mmdeploy::grid_sampler',
+        'com.microsoft::GridSample',
         input,
         grid,
-        interpolation_mode_i=interpolation_mode,
-        padding_mode_i=padding_mode,
+        mode_s=interpolation_modes[interpolation_mode],
+        padding_mode_s=padding_modes[padding_mode],
         align_corners_i=align_corners)
 
 
